@@ -82,13 +82,12 @@
         @enderror
     </div>
 
-    <div>
+    <div wire:ignore>
         <x-label for="descripcion" :value="__('Descripción Puesto')" />
-        <textarea
-            wire:model="descripcion"
+        <textarea id="descripcion" 
+            wire:model="descripcion" 
             placeholder="Descripción general del puesto, experiencia"
-            class="rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 w-full h-72"
-        ></textarea>
+            class="rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 w-full h-72">{!! $descripcion !!}</textarea>
 
         @error('descripcion')
             <livewire:mostrar-alerta :message="$message" />
@@ -126,5 +125,13 @@
     <x-button>
         Guardar Cambios
     </x-button>
+
+    <script>
+        let editor;
+        CKEDITOR.replace('descripcion');
+        CKEDITOR.instances.descripcion.on('change', function() {
+            @this.set('descripcion', CKEDITOR.instances.descripcion.getData());
+        });
+    </script>
 
 </form>

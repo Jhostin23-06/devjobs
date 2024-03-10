@@ -16,6 +16,7 @@
         @livewireStyles
 
         <!-- Scripts -->
+        <script src="https://cdn.ckeditor.com/4.16.1/standard-all/ckeditor.js"></script>
         <script src="{{ asset('js/app.js') }}" defer></script>
 
 

@@ -155,26 +155,45 @@
     <script>
         Livewire.on('mostrarAlerta', vacanteId => {
             Swal.fire({
-                title: '<h3 class="text-2xl font-bold text-gray-900">¿Eliminar Vacante?</h3>',
-                html: '<p class="text-gray-600">Esta acción no se puede deshacer. Se eliminarán todos los datos asociados.</p>',
+                title: '<div class="text-2xl font-bold text-gray-900 mb-2">¿Eliminar Vacante?</div>',
+                html: '<div class="text-gray-600 mb-6">Esta acción no se puede deshacer. Se eliminarán todos los datos asociados.</div>',
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#ef4444',
                 cancelButtonColor: '#6b7280',
-                confirmButtonText: '<i class="fas fa-trash-alt mr-2"></i> Sí, eliminar',
-                cancelButtonText: '<i class="fas fa-times mr-2"></i> Cancelar',
+                confirmButtonText: '<div class="flex items-center justify-center"><i class="fas fa-trash-alt mr-2"></i> Sí, eliminar</div>',
+                cancelButtonText: '<div class="flex items-center justify-center"><i class="fas fa-times mr-2"></i> Cancelar</div>',
                 reverseButtons: true,
                 customClass: {
-                    confirmButton: 'btn-confirm',
-                    cancelButton: 'btn-cancel'
+                    popup: 'rounded-2xl shadow-2xl',
+                    title: 'mb-0',
+                    htmlContainer: 'mb-0',
+                    confirmButton: 'btn-swal-confirm',
+                    cancelButton: 'btn-swal-cancel',
+                    actions: 'mt-6'
+                },
+                didOpen: () => {
+                    // Asegurar que los botones sean visibles
+                    const confirmBtn = document.querySelector('.swal2-confirm');
+                    const cancelBtn = document.querySelector('.swal2-cancel');
+                    
+                    if (confirmBtn) {
+                        confirmBtn.style.opacity = '1';
+                        confirmBtn.style.visibility = 'visible';
+                    }
+                    
+                    if (cancelBtn) {
+                        cancelBtn.style.opacity = '1';
+                        cancelBtn.style.visibility = 'visible';
+                    }
                 }
             }).then((result) => {
                 if (result.isConfirmed) {
                     Livewire.emit('eliminarVacante', vacanteId);
                     
                     Swal.fire({
-                        title: '<h3 class="text-xl font-bold text-green-600">¡Eliminado!</h3>',
-                        html: '<p class="text-gray-600">La vacante ha sido eliminada correctamente.</p>',
+                        title: '<div class="text-xl font-bold text-green-600">¡Eliminado!</div>',
+                        html: '<div class="text-gray-600">La vacante ha sido eliminada correctamente.</div>',
                         icon: 'success',
                         timer: 2000,
                         showConfirmButton: false,
@@ -237,6 +256,61 @@
         padding: 10px 24px;
         border-radius: 10px;
         font-weight: 600;
+    }
+
+    /* Estilos explícitos */
+    .btn-swal-confirm {
+        background: linear-gradient(135deg, #ef4444, #dc2626) !important;
+        color: white !important;
+        padding: 12px 28px !important;
+        border-radius: 12px !important;
+        font-weight: 600 !important;
+        font-size: 16px !important;
+        border: none !important;
+        min-width: 140px !important;
+        height: 48px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        transition: all 0.3s ease !important;
+    }
+    
+    .btn-swal-confirm:hover {
+        transform: translateY(-2px) !important;
+        box-shadow: 0 8px 15px rgba(239, 68, 68, 0.3) !important;
+    }
+    
+    .btn-swal-cancel {
+        background: linear-gradient(135deg, #6b7280, #4b5563) !important;
+        color: white !important;
+        padding: 12px 28px !important;
+        border-radius: 12px !important;
+        font-weight: 600 !important;
+        font-size: 16px !important;
+        border: none !important;
+        min-width: 140px !important;
+        height: 48px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        transition: all 0.3s ease !important;
+    }
+    
+    .btn-swal-cancel:hover {
+        transform: translateY(-2px) !important;
+        box-shadow: 0 8px 15px rgba(107, 114, 128, 0.3) !important;
+    }
+    
+    /* Modal */
+    .swal2-popup {
+        padding: 2.5rem !important;
+        border-radius: 20px !important;
+        max-width: 500px !important;
+        width: 90% !important;
     }
     
     /* Animaciones */

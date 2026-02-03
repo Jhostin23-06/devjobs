@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class NotificacionController extends Controller
 {
@@ -14,13 +15,21 @@ class NotificacionController extends Controller
      */
     public function __invoke(Request $request)
     {
-        $notificaciones = auth()->user()->unreadNotifications;
-
-        // Limpiar notificaciones
-        auth()->user()->unreadNotifications->markAsRead();
+        $user = Auth::user();
+        
+        // Usar los nuevos métodos
+        $notificacionesNoLeidas = $user->notificacionesNoLeidas()->get();
+        $notificacionesLeidas = $user->notificacionesLeidas()->get();
+        
+        // Combinar todas
+        $notificaciones = $notificacionesNoLeidas
+            ->merge($notificacionesLeidas)
+            ->sortByDesc('created_at');
 
         return view('notificaciones.index', [
-            'notificaciones' => $notificaciones 
+            'notificaciones' => $notificaciones,
+            'notificacionesNoLeidas' => $notificacionesNoLeidas,
+            'notificacionesLeidas' => $notificacionesLeidas
         ]);
     }
 }

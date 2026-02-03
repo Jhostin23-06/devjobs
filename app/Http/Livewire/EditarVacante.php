@@ -7,6 +7,7 @@ use Livewire\Component;
 use App\Models\Categoria;
 use App\Models\Vacante;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Log;
 use Livewire\WithFileUploads;
 
 class EditarVacante extends Component
@@ -40,17 +41,26 @@ class EditarVacante extends Component
         $this->salario = $vacante->salario_id;
         $this->categoria = $vacante->categoria_id;
         $this->empresa = $vacante->empresa;
-        $this->ultimo_dia = Carbon::parse( $vacante->ultimo_dia)->format('Y-m-d');
+        $this->ultimo_dia = Carbon::parse($vacante->ultimo_dia)->format('Y-m-d');
         $this->descripcion = $vacante->descripcion;
         $this->imagen = $vacante->imagen;
     }
 
     public function editarVacante() 
     {
+        // Agregar log para debug
+        Log::info('=== INICIANDO EDICIÓN DE VACANTE ===');
+        Log::info('ID Vacante:', [$this->vacante_id]);
+        Log::info('Descripción recibida (primeros 100 chars):', [substr($this->descripcion, 0, 100)]);
+        Log::info('Longitud descripción:', [strlen($this->descripcion)]);
+        
         $datos = $this->validate();
+        
+        Log::info('Datos validados correctamente');
 
         // Si hay una nueva imagen
         if($this->imagen_nueva) {
+            Log::info('Nueva imagen detectada');
             $imagen = $this->imagen_nueva->store('public/vacantes');
             $datos['imagen'] = str_replace('public/vacantes/', '', $imagen);
         }
@@ -64,16 +74,26 @@ class EditarVacante extends Component
         $vacante->categoria_id = $datos['categoria'];
         $vacante->empresa = $datos['empresa'];
         $vacante->ultimo_dia = $datos['ultimo_dia'];
-        $vacante->descripcion = $datos['descripcion'];
+        $vacante->descripcion = $datos['descripcion']; // Usar directamente $this->descripcion
         $vacante->imagen = $datos['imagen'] ?? $vacante->imagen;
+
+        Log::info('Guardando vacante...');
 
         // Guardar la vacante
         $vacante->save();
+
+        Log::info('Vacante guardada exitosamente');
 
         // redireccionar
         session()->flash('mensaje', 'La Vacante se actualizó Correctamente');
 
         return redirect()->route('vacantes.index');
+    }
+
+    // Agregar este método para debug si es necesario
+    public function updatedDescripcion($value)
+    {
+        Log::info('Descripción actualizada en tiempo real:', [substr($value, 0, 50)]);
     }
 
     public function render()

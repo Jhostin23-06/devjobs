@@ -6,7 +6,9 @@
     "license": "MIT",
     "require": {
         "php": "^8.2.0",
+        "doctrine/dbal": "^4.4",
         "guzzlehttp/guzzle": "^7.2",
+        "illuminate/database": "*",
         "laravel/framework": "^9.19",
         "laravel/sanctum": "^2.14.1",
         "laravel/tinker": "^2.7",

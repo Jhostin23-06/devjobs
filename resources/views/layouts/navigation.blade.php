@@ -29,9 +29,7 @@
             <div class="hidden sm:flex sm:items-center sm:ml-6">
                 @auth
                     @can('create', App\Models\Vacante::class) 
-                        <a class="mr-2 w-7 h-7 bg-indigo-600 hover:bg-indigo-800 rounded-full flex flex-col justify-center items-center text-sm font-extrabold text-white" href="{{ route('notificaciones') }}">
-                            {{ auth()->user()->unreadNotifications->count() }}
-                        </a>
+                        <livewire:contador-notificaciones />
                     @endcan
 
                     <x-dropdown align="right" width="48">

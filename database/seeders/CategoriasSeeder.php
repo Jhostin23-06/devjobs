@@ -15,46 +15,56 @@ class CategoriasSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('categorias')->insert([
-            'categoria' => 'Backend Developer',
-            'created_at' => date('Y-m-d H:i:s'),
-            'updated_at' => date('Y-m-d H:i:s'),
-        ]);
+        $categorias = [
+            // TOP 10 más demandados en Perú
+            ['categoria' => 'Full Stack Developer'],
+            ['categoria' => 'Backend Developer'],
+            ['categoria' => 'Frontend Developer'],
+            ['categoria' => 'Mobile Developer'],
+            ['categoria' => 'DevOps Engineer'],
+            ['categoria' => 'Data Analyst'],
+            ['categoria' => 'QA Engineer'],
+            ['categoria' => 'UX/UI Designer'],
+            ['categoria' => 'Tech Lead'],
+            ['categoria' => 'Project Manager'],
+            
+            // Especialidades técnicas
+            ['categoria' => 'Java Developer'],
+            ['categoria' => 'Python Developer'],
+            ['categoria' => '.NET Developer'],
+            ['categoria' => 'React Developer'],
+            ['categoria' => 'Node.js Developer'],
+            ['categoria' => 'Android Developer'],
+            ['categoria' => 'iOS Developer'],
+            ['categoria' => 'Cloud Engineer'],
+            ['categoria' => 'Database Administrator'],
+            
+            // Roles empresariales (muy demandados en corporaciones)
+            ['categoria' => 'SAP Consultant'],
+            ['categoria' => 'Business Intelligence'],
+            ['categoria' => 'ERP Developer'],
+            ['categoria' => 'IT Manager'],
+            
+            // Startups & Fintech peruanas
+            ['categoria' => 'Fintech Developer'],
+            ['categoria' => 'Blockchain Developer'],
+            ['categoria' => 'API Developer'],
+            
+            // E-commerce (muy fuerte en Perú)
+            ['categoria' => 'Magento Developer'],
+            ['categoria' => 'Shopify Developer'],
+            ['categoria' => 'WordPress Developer'],
+            
+            // Ciberseguridad (en crecimiento)
+            ['categoria' => 'Cybersecurity Analyst'],
+        ];
 
-        DB::table('categorias')->insert([
-            'categoria' => 'Front end Developer',
-            'created_at' => date('Y-m-d H:i:s'),
-            'updated_at' => date('Y-m-d H:i:s'),
-        ]);
-
-        DB::table('categorias')->insert([
-            'categoria' => 'Mobile Developer',
-            'created_at' => date('Y-m-d H:i:s'),
-            'updated_at' => date('Y-m-d H:i:s'),
-        ]);
-
-        DB::table('categorias')->insert([
-            'categoria' => 'Techlead',
-            'created_at' => date('Y-m-d H:i:s'),
-            'updated_at' => date('Y-m-d H:i:s'),
-        ]);
-
-        DB::table('categorias')->insert([
-            'categoria' => 'UX / UI Design',
-            'created_at' => date('Y-m-d H:i:s'),
-            'updated_at' => date('Y-m-d H:i:s'),
-        ]);
-
-        DB::table('categorias')->insert([
-            'categoria' => 'Software Architecture',
-            'created_at' => date('Y-m-d H:i:s'),
-            'updated_at' => date('Y-m-d H:i:s'),
-        ]);
-
-        DB::table('categorias')->insert([
-            'categoria' => 'Devops',
-            'created_at' => date('Y-m-d H:i:s'),
-            'updated_at' => date('Y-m-d H:i:s'),
-        ]);
+        foreach ($categorias as $categoria) {
+            DB::table('categorias')->insert([
+                'categoria' => $categoria['categoria'],
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+        }
     }
 }

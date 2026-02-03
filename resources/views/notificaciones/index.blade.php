@@ -1,40 +1,101 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Notificaciones') }}
-        </h2>
+        <div class="flex items-center justify-between">
+            <div>
+                <h2 class="text-xl font-semibold text-gray-800 leading-tight">
+                    Mis Notificaciones
+                </h2>
+                <p class="text-sm text-gray-600 mt-1">
+                    Gestiona todas tus alertas y notificaciones
+                </p>
+            </div>
+        
+        </div>
     </x-slot>
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 bg-white border-b border-gray-200">
-                    <h1 class="text-2xl font-bold text-center my-10">Mis Notificaciones</h1>
-                    
-                    <div class="divide-y divide-gray-200">
-                        @forelse ($notificaciones as $notificacion)
-                            <div class="p-5 lg:flex lg:justify-between lg:items-center">
-                                <div>
-                                    <p>Tienes un nuevo candidato en:
-                                        <span class="font-bold">{{ $notificacion->data['nombre_vacante'] }}</span>
-                                    </p>
-
-                                    <p>
-                                        <span class="font-bold">{{ $notificacion->created_at->diffForHumans() }}</span>
-                                    </p>
-                                </div>
-                                <div class="mt-5 lg:mt-0">
-                                    <a href="{{ route('candidatos.index', $notificacion->data['id_vacante']) }}" class="bg-indigo-500 p-3 text-sm uppercase font-bold text-white rounded-lg">
-                                        Ver Candidatos
-                                    </a>
-                                </div>
-                            </div>
-                        @empty
-                            <p class="text-center text-gray-600">No Hay Notificaciones Nuevas</p>
-                        @endforelse
-                    </div>
-                </div>
+    <div class="py-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Mostrar mensajes flash -->
+            @if(session('mensaje'))
+            <div class="mb-6 p-4 bg-green-100 border border-green-400 text-green-700 rounded-lg">
+                {{ session('mensaje') }}
             </div>
+            @endif
+
+            <!-- Componente Livewire -->
+            <livewire:gestionar-notificaciones />
         </div>
     </div>
+
+    <!-- Estilos adicionales -->
+    <style>
+        /* Animaciones */
+        @keyframes fade-in {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .animate-fade-in {
+            animation: fade-in 0.5s ease-out;
+        }
+
+        /* Efecto hover para notificaciones no leídas */
+        .hover\:bg-indigo-50\/50:hover {
+            background-color: rgba(238, 242, 255, 0.5);
+        }
+
+        /* Dropdown de acciones */
+        .group-hover\/actions\:block {
+            display: block !important;
+        }
+
+        /* Transiciones suaves */
+        .transition-all {
+            transition-property: all;
+            transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+            transition-duration: 300ms;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .grid-cols-4 {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .flex-col {
+                flex-direction: column;
+            }
+            
+            .gap-6 {
+                gap: 1rem;
+            }
+        }
+    </style>
+
+    <!-- Scripts -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Alternar dropdown de acciones
+            document.querySelectorAll('[data-action-dropdown]').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const dropdown = this.nextElementSibling;
+                    dropdown.classList.toggle('hidden');
+                });
+            });
+
+            // Cerrar dropdowns al hacer clic fuera
+            document.addEventListener('click', function() {
+                document.querySelectorAll('.action-dropdown').forEach(dropdown => {
+                    dropdown.classList.add('hidden');
+                });
+            });
+
+            // Notificación de éxito para acciones
+            Livewire.on('notificacionMarcada', function(message) {
+                // Puedes agregar un toast notification aquí
+                console.log(message);
+            });
+        });
+    </script>
 </x-app-layout>

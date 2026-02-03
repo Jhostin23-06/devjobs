@@ -1,54 +1,102 @@
-<div class="bg-gray-100 py-10">
-    <h2 class="text-2xl md:text-4xl text-gray-600 text-center font-extrabold my-5">Buscar y Filtrar Vacantes</h2>
-
-    <div class="max-w-7xl mx-auto ">
-        <form
-            wire:submit.prevent='leerDatosFormulario'
-        >
-            <div class="md:grid md:grid-cols-3 gap-5">
-                <div class="mb-5">
-                    <label 
-                        class="block mb-1 text-sm text-gray-700 uppercase font-bold "
-                        for="termino">Término de Búsqueda
-                    </label>
+<div class="bg-white py-8 border-b border-gray-100">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <form wire:submit.prevent='leerDatosFormulario' class="space-y-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <!-- Búsqueda -->
+                <div class="relative">
                     <input 
                         id="termino"
                         type="text"
-                        placeholder="Buscar por Término: ej. Laravel"
-                        class="rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 w-full"
-                        wire:model="termino"
+                        placeholder="Buscar por palabra clave..."
+                        class="w-full px-4 py-3 pl-11 rounded-lg border border-gray-300 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500"
+                        wire:model.debounce.500ms="termino"
                     />
+                    <div class="absolute left-3 top-3.5 text-gray-400">
+                        <i class="fas fa-search"></i>
+                    </div>
                 </div>
 
-                <div class="mb-5">
-                    <label class="block mb-1 text-sm text-gray-700 uppercase font-bold">Categoría</label>
-                    <select wire:model="categoria" class="border-gray-300 p-2 w-full">
-                        <option>--Seleccione--</option>
-            
-                        @foreach ($categorias as $categoria )
-                            <option value="{{ $categoria->id }}">{{ $categoria->categoria }}</option>
+                <!-- Categoría -->
+                <div class="relative">
+                    <select 
+                        wire:model="categoria" 
+                        class="w-full px-4 py-3 pl-11 rounded-lg border border-gray-300 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 appearance-none"
+                    >
+                        <option value="">Todas las categorías</option>
+                        @foreach ($categorias as $cat)
+                            <option value="{{ $cat->id }}">{{ $cat->categoria }}</option>
                         @endforeach
                     </select>
+                    <div class="absolute left-3 top-3.5 text-gray-400">
+                        <i class="fas fa-filter"></i>
+                    </div>
                 </div>
 
-                <div class="mb-5">
-                    <label class="block mb-1 text-sm text-gray-700 uppercase font-bold">Salario Mensual</label>
-                    <select wire:model="salario" class="border-gray-300 p-2 w-full">
-                        <option>-- Seleccione --</option>
-                        @foreach ($salarios as $salario)
-                            <option value="{{ $salario->id }}">{{$salario->salario}}</option>
+                <!-- Salario -->
+                <div class="relative">
+                    <select 
+                        wire:model="salario" 
+                        class="w-full px-4 py-3 pl-11 rounded-lg border border-gray-300 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 appearance-none"
+                    >
+                        <option value="">Todos los salarios</option>
+                        @foreach ($salarios as $sal)
+                            <option value="{{ $sal->id }}">{{ $sal->salario }}</option>
                         @endforeach
                     </select>
+                    <div class="absolute left-3 top-3.5 text-gray-400">
+                        <i class="fas fa-dollar-sign"></i>
+                    </div>
                 </div>
-            </div>
 
-            <div class="flex justify-end">
-                <input 
+                <!-- Botón -->
+                <button 
                     type="submit"
-                    class="bg-indigo-500 hover:bg-indigo-600 transition-colors text-white text-sm font-bold px-10 py-2 rounded cursor-pointer uppercase w-full md:w-auto"
-                    value="Buscar"
-                />
+                    class="w-full bg-indigo-600 text-white font-semibold py-3 px-6 rounded-lg hover:bg-indigo-700 transition-colors flex items-center justify-center gap-2"
+                >
+                    <i class="fas fa-search"></i>
+                    <span>Buscar</span>
+                </button>
             </div>
+
+            <!-- Filtros activos -->
+            @if($termino || $categoria || $salario)
+            <div class="flex flex-wrap gap-2 pt-2">
+                @if($termino)
+                <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full text-sm bg-indigo-100 text-indigo-800">
+                    {{ $termino }}
+                    <button type="button" wire:click="$set('termino', '')" class="ml-1 hover:text-red-500">
+                        <i class="fas fa-times text-xs"></i>
+                    </button>
+                </span>
+                @endif
+                
+                @if($categoria)
+                <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full text-sm bg-purple-100 text-purple-800">
+                    {{ $categorias->firstWhere('id', $categoria)->categoria ?? '' }}
+                    <button type="button" wire:click="$set('categoria', '')" class="ml-1 hover:text-red-500">
+                        <i class="fas fa-times text-xs"></i>
+                    </button>
+                </span>
+                @endif
+                
+                @if($salario)
+                <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full text-sm bg-green-100 text-green-800">
+                    {{ $salarios->firstWhere('id', $salario)->salario ?? '' }}
+                    <button type="button" wire:click="$set('salario', '')" class="ml-1 hover:text-red-500">
+                        <i class="fas fa-times text-xs"></i>
+                    </button>
+                </span>
+                @endif
+                
+                <button 
+                    type="button"
+                    wire:click="limpiarFiltros"
+                    class="text-sm text-gray-600 hover:text-gray-900 ml-2"
+                >
+                    Limpiar todos
+                </button>
+            </div>
+            @endif
         </form>
     </div>
 </div>

@@ -49,6 +49,10 @@
                                     <i class="fas fa-clock mr-2"></i>
                                     Vence: {{ $vacante->ultimo_dia->format('d/m/Y') }}
                                 </span>
+                                <span class="inline-flex items-center px-3 py-1 rounded-full text-sm bg-purple-100 text-purple-800">
+                                    <i class="fas fa-clock mr-2"></i>
+                                    Modalidad: {{ $vacante->modalidad->nombre ?? '' }}
+                                </span>
                             </div>
                         </div>
 

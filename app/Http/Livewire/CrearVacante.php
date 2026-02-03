@@ -3,6 +3,7 @@
 namespace App\Http\Livewire;
 
 use App\Models\Categoria;
+use App\Models\Modalidad;
 use App\Models\Salario;
 use App\Models\Vacante;
 use Livewire\Component;
@@ -13,6 +14,7 @@ class CrearVacante extends Component
     public $titulo;
     public $salario;
     public $categoria;
+    public $modalidad;
     public $empresa;
     public $ultimo_dia;
     public $descripcion;
@@ -24,6 +26,7 @@ class CrearVacante extends Component
         'titulo' => 'required|string',
         'salario' => 'required',
         'categoria' => 'required',
+        'modalidad' => 'required',
         'empresa' => 'required',
         'ultimo_dia' => 'required',
         'descripcion' => 'required',
@@ -45,6 +48,7 @@ class CrearVacante extends Component
             'titulo' => $datos['titulo'],
             'salario_id' => $datos['salario'],
             'categoria_id' => $datos['categoria'],
+            'modalidad_id' => $datos['modalidad'],
             'empresa' => $datos['empresa'],
             'ultimo_dia' => $datos['ultimo_dia'],
             'descripcion' => $datos['descripcion'],
@@ -66,10 +70,12 @@ class CrearVacante extends Component
         // Consultar BD
         $salarios = Salario::all();
         $categorias = Categoria::all();
+        $modalidades = Modalidad::all();
 
         return view('livewire.crear-vacante', [
             'salarios' => $salarios,
-            'categorias' => $categorias
+            'categorias' => $categorias,
+            'modalidades' => $modalidades
         ]);
     }
 }

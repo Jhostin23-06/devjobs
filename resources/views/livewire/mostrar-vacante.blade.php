@@ -45,9 +45,6 @@
                                 <div class="flex items-center text-gray-600 mb-4">
                                     <i class="fas fa-building mr-2"></i>
                                     <span class="font-medium">{{ $vacante->empresa }}</span>
-                                    <span class="mx-2">•</span>
-                                    <i class="fas fa-map-marker-alt mr-2"></i>
-                                    <span>Remoto</span>
                                 </div>
                             </div>
 
@@ -56,8 +53,8 @@
                         <!-- Badges informativos -->
                         <div class="flex flex-wrap gap-3 mb-6">
                             <span class="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium bg-green-100 text-green-800">
-                                <i class="fas fa-bolt mr-2"></i>
-                                Nuevo puesto
+                                <i class="fas fa-map-marker-alt mr-2"></i>
+                                Modalidad: {{ $vacante->modalidad->nombre ?? '' }}
                             </span>
                             <span class="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium bg-blue-100 text-blue-800">
                                 <i class="fas fa-clock mr-2"></i>
@@ -119,12 +116,8 @@
                             <span class="ml-3">{{ $vacante->categoria->categoria }}</span>
                         </div>
                         <div class="flex items-center text-gray-700">
-                            <i class="fas fa-briefcase text-indigo-600 w-6"></i>
-                            <span class="ml-3">Tiempo completo</span>
-                        </div>
-                        <div class="flex items-center text-gray-700">
                             <i class="fas fa-map-marker-alt text-indigo-600 w-6"></i>
-                            <span class="ml-3">Remoto (Perú)</span>
+                            <span class="ml-3">{{ $vacante->modalidad->nombre ?? '' }}</span>
                         </div>
                     </div>
                 </div>

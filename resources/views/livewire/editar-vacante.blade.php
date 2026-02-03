@@ -106,6 +106,36 @@
             @enderror
         </div>
 
+        <!-- Categoría -->
+        <div class="space-y-3">
+            <label for="categoria" class="block text-sm font-medium text-gray-700 flex items-center">
+                <i class="fas fa-tag text-indigo-500 mr-2"></i>
+                Modalidad del Puesto
+            </label>
+            <div class="relative">
+                <select
+                    id="modalidad"
+                    wire:model="modalidad"
+                    class="w-full px-4 py-3 pl-11 rounded-xl border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 appearance-none transition-all duration-300">
+                    <option value="">-- Selecciona una modalidad --</option>
+                    @foreach ($modalidades as $modalidadItem)
+                    <option value="{{ $modalidadItem->id }}" {{ $modalidad == $modalidadItem->id ? 'selected' : '' }}>
+                        {{ $modalidadItem->nombre }}
+                    </option>
+                    @endforeach
+                </select>
+                <div class="absolute left-3 top-3 text-gray-400">
+                    <i class="fas fa-filter"></i>
+                </div>
+                <div class="absolute right-3 top-3 text-gray-400 pointer-events-none">
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+            </div>
+            @error('modalidad')
+            <livewire:mostrar-alerta :message="$message" />
+            @enderror
+        </div>
+
         <!-- Fecha límite -->
         <div class="space-y-3">
             <label for="ultimo_dia" class="block text-sm font-medium text-gray-700 flex items-center">

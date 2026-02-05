@@ -56,6 +56,11 @@
                                     {{ __('Cerrar Sesión') }}
                                 </x-dropdown-link>
                             </form>
+
+                            <x-dropdown-link :href="route('profile.show')">
+                                {{ __('Mi Perfil') }}
+                            </x-dropdown-link>
+
                         </x-slot>
                     </x-dropdown>
                 @endauth

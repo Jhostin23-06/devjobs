@@ -94,7 +94,11 @@
                                     <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-2">
                                         <div>
                                             <h4 class="font-bold text-gray-900 text-lg group-hover:text-indigo-600 transition-colors">
-                                                {{ $candidato->user->name }}
+                                                <a href="{{ $candidato->user->perfil_url }}"
+                                                    target="_blank"
+                                                    class="text-indigo-600 hover:text-indigo-900 hover:underline">
+                                                    {{ $candidato->user->name }}
+                                                </a>
                                             </h4>
                                             <div class="flex items-center text-gray-600 mt-1">
                                                 <i class="fas fa-envelope text-gray-400 text-sm mr-2"></i>

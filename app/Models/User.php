@@ -29,7 +29,21 @@ class User extends Authenticatable implements MustVerifyEmail
         'name',
         'email',
         'password',
-        'rol'
+        'username',
+        'rol',
+        'telefono',
+        'direccion',
+        'ciudad',
+        'pais',
+        'biografia',
+        'titulo_profesional',
+        'linkedin',
+        'github',
+        'twitter',
+        'website',
+        'foto_perfil',
+        'perfil_publico',
+        'recibir_notificaciones',
     ];
 
     /**
@@ -51,6 +65,27 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
     ];
 
+    public function vacantes()
+    {
+        return $this->hasMany(Vacante::class);
+    }
+
+    public function habilidades()
+    {
+        return $this->belongsToMany(Habilidad::class, 'user_habilidad')
+                    ->withPivot('nivel', 'experiencia_meses')
+                    ->withTimestamps();
+    }
+
+    public function experiencias()
+    {
+        return $this->hasMany(Experiencia::class);
+    }
+
+    public function educaciones()
+    {
+        return $this->hasMany(Educacion::class);
+    }
 
     /**
      * Obtener todas las notificaciones sin marcar como leídas
@@ -90,6 +125,14 @@ class User extends Authenticatable implements MustVerifyEmail
     public function scopeNotificacionesNoLeidas($query)
     {
         return $query->whereNull('read_at');
+    }
+
+    public function getPerfilUrlAttribute()
+    {
+        if ($this->username) {
+            return route('usuarios.show', $this->username);
+        }
+        return route('usuarios.showById', $this);
     }
 
 }

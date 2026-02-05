@@ -24,7 +24,7 @@ class ProfileController extends Controller
         $user = Auth::user();
         $habilidades = Habilidad::where('activo', true)->get();
         
-        return view('profile.show', compact('user', 'habilidades'));
+        return view('profile-show', compact('user', 'habilidades'));
     }
 
     // Mostrar formulario de edición
@@ -33,7 +33,7 @@ class ProfileController extends Controller
         $user = Auth::user();
         $habilidades = Habilidad::where('activo', true)->get();
         
-        return view('profile.edit', compact('user', 'habilidades'));
+        return view('profile-edit', compact('user', 'habilidades'));
     }
 
     // Actualizar información básica
@@ -78,7 +78,7 @@ class ProfileController extends Controller
 
         $user->update($validated);
 
-        return redirect()->route('profile.show')
+        return redirect()->route('profile-show')
             ->with('success', 'Perfil actualizado correctamente.');
     }
 

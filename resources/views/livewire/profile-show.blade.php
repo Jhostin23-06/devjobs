@@ -332,7 +332,7 @@
     </x-modal>
 
     <x-modal name="editar-perfil" maxWidth="4xl">
-        <livewire:profile.edit />
+        <livewire:profile-edit />
     </x-modal>
 
     <!-- Modal para Cambiar Contraseña -->

@@ -57,7 +57,7 @@
                                 </x-dropdown-link>
                             </form>
 
-                            <x-dropdown-link :href="route('profile.show')">
+                            <x-dropdown-link :href="route('profile-show')">
                                 {{ __('Mi Perfil') }}
                             </x-dropdown-link>
 

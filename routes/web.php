@@ -7,6 +7,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\VacanteController;
 use App\Http\Livewire\Profile\Show;
+use App\Http\Livewire\Show as LivewireShow;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -36,7 +37,7 @@ Route::get('/notificaciones', NotificacionController::class)->middleware(['auth'
 
 // Perfil de usuario
 Route::middleware(['auth'])->group(function () {
-    Route::get('/perfil', Show::class)->name('profile.show');
+    Route::get('/perfil', LivewireShow::class)->name('profile-show');
     // ... otras rutas del perfil
 });
 

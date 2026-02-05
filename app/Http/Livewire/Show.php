@@ -1,24 +1,26 @@
 <?php
 
-namespace App\Http\Livewire\Profile;
+namespace App\Http\Livewire;
 
-use Livewire\Component;
-use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Livewire\Component;
+use Livewire\WithFileUploads;
 
-class Edit extends Component
+class Show extends Component
 {
     use WithFileUploads;
 
     public $user;
     public $foto_perfil;
+    public $mostrarCambioPassword = false;
+    public $mostrarHabilidades = false;
+    public $mostrarExperiencia = false;
+    public $mostrarEducacion = false;
 
-    public $username;
-    public $perfil_publico = true;
-    
-    // Campos del formulario
+    // Datos del formulario
     public $name;
     public $email;
     public $telefono;
@@ -31,6 +33,13 @@ class Edit extends Component
     public $github;
     public $twitter;
     public $website;
+
+    // Para cambio de contraseña
+    public $current_password;
+    public $password;
+    public $password_confirmation;
+
+    protected $listeners = ['refreshProfile' => '$refresh'];
 
     public function mount()
     {
@@ -52,13 +61,11 @@ class Edit extends Component
         $this->github = $this->user->github;
         $this->twitter = $this->user->twitter;
         $this->website = $this->user->website;
-        $this->username = $this->user->username;
-        $this->perfil_publico = $this->user->perfil_publico;
     }
 
-    public function rules()
+    public function actualizarInformacionBasica()
     {
-        return [
+        $this->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email,' . $this->user->id,
             'telefono' => 'nullable|string|max:20',
@@ -72,14 +79,7 @@ class Edit extends Component
             'twitter' => 'nullable|url|max:255',
             'website' => 'nullable|url|max:255',
             'foto_perfil' => 'nullable|image|max:2048',
-            'username' => 'nullable|string|max:50|unique:users,username,' . $this->user->id,
-            'perfil_publico' => 'boolean',
-        ];
-    }
-
-    public function actualizarPerfil()
-    {
-        $this->validate();
+        ]);
 
         $data = [
             'name' => $this->name,
@@ -94,8 +94,6 @@ class Edit extends Component
             'github' => $this->github,
             'twitter' => $this->twitter,
             'website' => $this->website,
-            'username' => $this->username,
-            'perfil_publico' => $this->perfil_publico,
         ];
 
         // Subir foto de perfil si existe
@@ -118,31 +116,41 @@ class Edit extends Component
             'message' => 'Perfil actualizado correctamente!'
         ]);
 
-        $this->emit('refreshProfile');
-        
-        // IMPORTANTE: Solo cerrar modal manualmente después de guardar
-        $this->dispatchBrowserEvent('close-modal', 'editar-perfil');
-        
-        // Resetear la foto temporal
         $this->foto_perfil = null;
+        $this->emitSelf('refreshProfile');
     }
 
-    public function eliminarFotoPerfil()
+    public function actualizarPassword()
     {
-        if ($this->user->foto_perfil) {
-            Storage::delete('public/fotos_perfil/' . $this->user->foto_perfil);
-            $this->user->update(['foto_perfil' => null]);
-            $this->user->refresh();
-            
-            $this->dispatchBrowserEvent('notify', [
-                'type' => 'success',
-                'message' => 'Foto de perfil eliminada correctamente!'
-            ]);
+        $this->validate([
+            'current_password' => 'required',
+            'password' => 'required|min:8|confirmed',
+        ]);
+
+        if (!Hash::check($this->current_password, $this->user->password)) {
+            $this->addError('current_password', 'La contraseña actual es incorrecta.');
+            return;
         }
+
+        $this->user->update([
+            'password' => Hash::make($this->password),
+        ]);
+
+        $this->reset(['current_password', 'password', 'password_confirmation']);
+        $this->mostrarCambioPassword = false;
+
+        $this->dispatchBrowserEvent('notify', [
+            'type' => 'success',
+            'message' => 'Contraseña cambiada exitosamente!'
+        ]);
     }
 
     public function render()
     {
-        return view('livewire.profile.edit');
+        return view('livewire.profile-show', [
+            'experiencias' => $this->user->experiencias()->orderBy('fecha_inicio', 'desc')->get(),
+            'educaciones' => $this->user->educaciones()->orderBy('fecha_inicio', 'desc')->get(),
+            'habilidades' => $this->user->habilidades()->withPivot('nivel')->get(),
+        ]);
     }
 }

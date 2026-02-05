@@ -14,7 +14,7 @@
                         Institución Educativa
                     </label>
                     <input type="text" 
-                           wire:model="institucion"
+                           wire:model.defer="institucion"
                            placeholder="Ej: Universidad Nacional, Instituto Tecnológico"
                            class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition-all duration-300">
                     @error('institucion') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
@@ -26,7 +26,7 @@
                         Título Obtenido
                     </label>
                     <input type="text" 
-                           wire:model="titulo"
+                           wire:model.defer="titulo"
                            placeholder="Ej: Ingeniería de Software, Licenciatura en..."
                            class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition-all duration-300">
                     @error('titulo') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
@@ -40,7 +40,7 @@
                     Campo de Estudio
                 </label>
                 <input type="text" 
-                       wire:model="campo_estudio"
+                       wire:model.defer="campo_estudio"
                        placeholder="Ej: Ciencias de la Computación, Desarrollo Web, Data Science"
                        class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition-all duration-300">
                 @error('campo_estudio') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
@@ -54,7 +54,7 @@
                         Fecha de inicio
                     </label>
                     <input type="date" 
-                           wire:model="fecha_inicio"
+                           wire:model.defer="fecha_inicio"
                            class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition-all duration-300">
                     @error('fecha_inicio') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
                 </div>
@@ -65,7 +65,7 @@
                         Fecha de fin
                     </label>
                     <input type="date" 
-                           wire:model="fecha_fin"
+                           wire:model.defer="fecha_fin"
                            {{ $estudiando_actualmente ? 'disabled' : '' }}
                            class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition-all duration-300 {{ $estudiando_actualmente ? 'bg-gray-100' : '' }}">
                     @error('fecha_fin') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
@@ -94,7 +94,7 @@
                     <i class="fas fa-file-alt text-indigo-500 mr-2"></i>
                     Descripción adicional
                 </label>
-                <textarea wire:model="descripcion" 
+                <textarea wire:model.defer="descripcion" 
                           rows="4"
                           placeholder="Describe logros académicos, proyectos relevantes, menciones honoríficas..."
                           class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition-all duration-300"></textarea>

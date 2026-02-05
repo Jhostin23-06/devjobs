@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire\Profile;
+namespace App\Http\Livewire;
 
 use Livewire\Component;
 
@@ -8,6 +8,6 @@ class UpdateHabilidades extends Component
 {
     public function render()
     {
-        return view('livewire.profile.update-habilidades');
+        return view('livewire.update-habilidades');
     }
 }

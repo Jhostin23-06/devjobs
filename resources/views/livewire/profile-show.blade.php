@@ -318,17 +318,17 @@
 
     <!-- Modal para Habilidades -->
     <x-modal name="habilidades" maxWidth="4xl">
-        <livewire:profile.habilidades-form />
+        <livewire:habilidades-form />
     </x-modal>
 
     <!-- Modal para Experiencia -->
     <x-modal name="experiencia" maxWidth="2xl">
-        <livewire:profile.experiencia-form />
+        <livewire:experiencia-form />
     </x-modal>
 
     <!-- Modal para Educación -->
     <x-modal name="educacion" maxWidth="2xl">
-        <livewire:profile.educacion-form />
+        <livewire:educacion-form />
     </x-modal>
 
     <x-modal name="editar-perfil" maxWidth="4xl">
@@ -337,7 +337,7 @@
 
     <!-- Modal para Cambiar Contraseña -->
     <x-modal name="cambiar-password" maxWidth="2xl">
-        <livewire:profile.update-password />
+        <livewire:update-password />
     </x-modal>
 
 </div>

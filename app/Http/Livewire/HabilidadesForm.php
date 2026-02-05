@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire\Profile;
+namespace App\Http\Livewire;
 
 use Livewire\Component;
 use App\Models\Habilidad;
@@ -125,6 +125,6 @@ class HabilidadesForm extends Component
 
     public function render()
     {
-        return view('livewire.profile.habilidades-form');
+        return view('livewire.habilidades-form');
     }
 }

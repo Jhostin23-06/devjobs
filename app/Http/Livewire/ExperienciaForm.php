@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire\Profile;
+namespace App\Http\Livewire;
 
 use Livewire\Component;
 use App\Models\Experiencia;
@@ -83,6 +83,6 @@ class ExperienciaForm extends Component
 
     public function render()
     {
-        return view('livewire.profile.experiencia-form');
+        return view('livewire.experiencia-form');
     }
 }

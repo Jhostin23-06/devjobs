@@ -94,7 +94,7 @@
                         <input type="text"
                             wire:model.defer="username"
                             placeholder="tu-usuario"
-                            class="w-full px-4 py-3 pl-48 rounded-xl border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition-all duration-300">
+                            class="w-full px-4 py-3 pl-80 rounded-xl border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition-all duration-300">
                     </div>
                     @error('username') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
                     <p class="text-xs text-gray-500 mt-2">

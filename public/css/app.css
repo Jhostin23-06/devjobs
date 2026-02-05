@@ -1891,6 +1891,15 @@ select {
 .pl-48 {
   padding-left: 12rem;
 }
+.pl-72 {
+  padding-left: 18rem;
+}
+.pl-96 {
+  padding-left: 24rem;
+}
+.pl-80 {
+  padding-left: 20rem;
+}
 .text-center {
   text-align: center;
 }

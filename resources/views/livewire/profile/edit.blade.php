@@ -89,7 +89,7 @@
                     </label>
                     <div class="relative">
                         <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                            <span class="text-gray-500">localhost:8000/perfiles/</span>
+                            <span class="text-gray-500">https://devjobs-app.domcloud.dev/perfiles/</span>
                         </div>
                         <input type="text"
                             wire:model.defer="username"
@@ -98,7 +98,7 @@
                     </div>
                     @error('username') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
                     <p class="text-xs text-gray-500 mt-2">
-                        Este será tu enlace público: <span class="font-medium">localhost:8000/perfiles/<span x-text="$wire.username || 'tu-usuario'"></span></span>
+                        Este será tu enlace público: <span class="font-medium">https://devjobs-app.domcloud.dev/perfiles/<span x-text="$wire.username || 'tu-usuario'"></span></span>
                     </p>
                 </div>
 
